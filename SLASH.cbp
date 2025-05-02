@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="ATTACK.cpp" />
+		<Unit filename="ATTACK.h" />
 		<Unit filename="MAP.cpp" />
 		<Unit filename="MAP.h" />
 		<Unit filename="PLAYER.cpp" />

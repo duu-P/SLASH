@@ -1,22 +1,32 @@
 # depslib dependency file v1.0
-1746130488 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
+1746209122 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	"PLAYER.h"
 	"Map.h"
+	"ATTACK.h"
 
-1746128699 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
+1746219580 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
 	"PLAYER.h"
 	<SDL_image.h>
+	"attack.h"
 
-1746126708 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
+1746216199 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
 	<SDL.h>
 
 1746126220 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.cpp
 	"Map.h"
 	<SDL_image.h>
 
-1746120233 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.h
+1746203254 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.h
+	<SDL.h>
+
+1746219134 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.cpp
+	"attack.h"
+	<SDL_image.h>
+	<SDL_log.h>
+
+1746217998 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.h
 	<SDL.h>
 

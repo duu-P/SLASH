@@ -3,11 +3,12 @@
 #include <SDL_image.h>
 #include "PLAYER.h"
 #include "Map.h"
+#include "ATTACK.h"
 
 using namespace std;
 
-const int SCREEN_WIDTH = 800; // 800= 16 * 50
-const int SCREEN_HEIGHT = 576; // 576= 16 * 36
+const int SCREEN_WIDTH = 768; // 768= 16 * 48
+const int SCREEN_HEIGHT = 544; // 544= 16 * 34
 const char* WINDOW_TITLE = "SLASH";
 
 void logErrorAndExit(const char* msg, const char* error)
@@ -67,9 +68,13 @@ int main(int argc, char* argv[])
     // Tạo map
     Map gameMap;
     gameMap.loadTileset(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Block.png");
+
     // Khai báo người chơi
     Player player;
-    player.loadTexture(renderer, "C:/Users/ADMIN/OneDrive/Hình ảnh/player-test.png");
+    player.loadTextures(renderer,"C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-Stand.png","C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-Runn.png" );
+
+    Attack attack;
+    attack.loadCrosshair(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/aim target.png");
 
     bool running = true;
     SDL_Event event;
@@ -83,12 +88,16 @@ int main(int argc, char* argv[])
             player.handleEvent(event);
         }
         player.update();
+
+
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
         SDL_RenderClear(renderer);
 
         gameMap.render(renderer);
         player.render(renderer);
+        attack.renderCrosshair(renderer);
+
 
         SDL_RenderPresent(renderer);
     }
