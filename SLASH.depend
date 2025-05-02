@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1746130488 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"PLAYER.h"
+	"Map.h"
+
+1746128699 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
+	"PLAYER.h"
+	<SDL_image.h>
+
+1746126708 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
+	<SDL.h>
+
+1746126220 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.cpp
+	"Map.h"
+	<SDL_image.h>
+
+1746120233 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.h
+	<SDL.h>
+
