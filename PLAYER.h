@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include<SDL.h>
+#include "Enemy.h"
 
 class Player {
 public:
@@ -11,10 +12,14 @@ public:
     void render(SDL_Renderer* renderer);
     void loadTextures(SDL_Renderer* renderer, const char* idlePath, const char* walkPath);
 
+    Entity getEntity() const { return player; }       // Để AI lấy thông tin người chơi
+    Entity& getEntityRef() { return player; }
+
 private:
     int x, y;       // Vị trí
     int speed;
     bool moveUp, moveDown, moveLeft, moveRight;
+    Entity player;
 
      SDL_Texture* idleTexture;
      SDL_Texture* walkTexture;

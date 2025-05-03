@@ -4,6 +4,7 @@
 #include "PLAYER.h"
 #include "Map.h"
 #include "ATTACK.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -63,7 +64,6 @@ int main(int argc, char* argv[])
     SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SDL_Renderer* renderer = createRenderer(window);
     IMG_Init(IMG_INIT_PNG);
-    //SDL_RenderSetLogicalSize(renderer, 553, 384); //tăng kích thước khung hình
 
     // Tạo map
     Map gameMap;
@@ -73,6 +73,8 @@ int main(int argc, char* argv[])
     Player player;
     player.loadTextures(renderer,"C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-Stand.png","C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-Runn.png" );
 
+    Enemy enemy(5, 5, 100, renderer);
+    enemy.loadTexture("C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Knight-enemy.png");
     Attack attack;
     attack.loadCrosshair(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/aim target.png");
 
@@ -88,14 +90,19 @@ int main(int argc, char* argv[])
             player.handleEvent(event);
         }
         player.update();
+        enemy.moveTowardsPlayer(player.getEntity());
+        enemy.attackPlayer(player.getEntityRef());
 
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
         SDL_RenderClear(renderer);
 
         gameMap.render(renderer);
+        enemy.render();
         player.render(renderer);
+
+
         attack.renderCrosshair(renderer);
 
 

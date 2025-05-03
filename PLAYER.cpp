@@ -33,7 +33,7 @@ void Player::loadTextures(SDL_Renderer* renderer, const char* idlePath, const ch
     SDL_FreeSurface(idleSurface);
     SDL_FreeSurface(walkSurface);
 
-    attack.loadAttackTexture(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Effect slash.png");
+    attack.loadAttackTexture(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Effect attack.png");
     attackPoseTexture = IMG_LoadTexture(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-attack.png");
 }
 
@@ -82,6 +82,8 @@ void Player::handleEvent(const SDL_Event& e) {
     if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT && !attack.isAttackingNow()) {
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
+    int centerX = x + 32 / 2;
+    int centerY = y + 32 / 2;
     attack.startAttack(x, y, mouseX, mouseY);
 
     // Khi tấn công thì không di chuyển

@@ -1,6 +1,7 @@
 #include "attack.h"
 #include <SDL_image.h>
 #include <SDL_log.h>
+#include <cmath>
 
 Attack::Attack() {
     crosshairTexture = nullptr;
@@ -69,22 +70,22 @@ void Attack::startAttack(int playerX, int playerY, int mouseX, int mouseY) {
     isAttacking = true;
     timer = duration;
 
-    // Tính hướng tấn công
-    int dx = mouseX - playerX;
-    int dy = mouseY - playerY;
+    // Tính góc từ người chơi đến chuột
+    int centerX = playerX + 32 / 2;
+    int centerY = playerY + 32 / 2;
 
-    if (abs(dx) > abs(dy)) {
-        dx = (dx > 0) ? 1 : -1;
-        dy = 0;
-    } else {
-        dx = 0;
-        dy = (dy > 0) ? 1 : -1;
-    }
+    angle = atan2(mouseY - centerY, mouseX - centerX);
 
-    attackRect.x = playerX + dx * 32;
-    attackRect.y = playerY + dy * 32;
+    int distance = 32;
+    int offsetX = static_cast<int>(cos(angle) * distance);
+    int offsetY = static_cast<int>(sin(angle) * distance);
+
+
+
     attackRect.w = 32;
     attackRect.h = 32;
+    attackRect.x = centerX + offsetX - attackRect.w / 2;
+    attackRect.y = centerY + offsetY - attackRect.h / 2;
 }
 
 void Attack::update() {
@@ -97,10 +98,17 @@ void Attack::update() {
 }
 
 void Attack::render(SDL_Renderer* renderer) {
-    if (isAttacking && attackTexture) {
+    /*if (isAttacking && attackTexture) {
         SDL_RenderCopy(renderer, attackTexture, nullptr, &attackRect);
-    }
+    } */
+    if (!isAttacking || attackTexture == nullptr) return;
+
+    double angleDegrees = angle * (180.0 / M_PI);
+    SDL_Point center = { attackRect.w / 2, attackRect.h / 2 };
+
+    SDL_RenderCopyEx(renderer, attackTexture, nullptr, &attackRect, angleDegrees, &center, SDL_FLIP_NONE);
 }
+
 
 bool Attack::isAttackingNow() const {
     return isAttacking;
