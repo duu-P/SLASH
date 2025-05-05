@@ -1,34 +1,49 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include<SDL.h>
-#include<string>
-
-
-struct Entity {
-    float x, y; // Vị trí
-    int health; // Sức khỏe
-};
-
+#include "player.h"
+class Player;
 class Enemy {
 public:
-    Enemy(int startX, int startY, int startHealth, SDL_Renderer* renderer); // Constructor
+    Enemy(int x, int y, SDL_Texture* texture);
 
-    void moveTowardsPlayer(const Entity& player); // Di chuyển về phía người chơi
-    void attackPlayer(Entity& player); // Tấn công người chơi
-    float distanceManhattan(float x1, float y1, float x2, float y2); // Tính khoảng cách Manhattan
-    void render();
+    void update(Player& player); // AI hành vi chính
+    void render(SDL_Renderer* renderer); // Vẽ enemy
+    void takeDamage(int damage);
+    void kill();
+    bool isDead() const;
+    bool isInAttackRange(const Player& player, int attackRange);
 
-    // Getters và Setters
     int getX() const;
     int getY() const;
-    int getHealth() const;
-    bool loadTexture(const std::string& path);
+    SDL_Rect getRect() const;
+
+    // Spawn Quái
+    void spawnRandom(int screenWidth, int screenHeight);
+    bool isActive() const { return active; }
+    void setActive(bool a) { active = a; }
+
+    void setMoveCooldown(Uint32 cooldown) { moveCooldown = cooldown; }
+
+
+    Uint32 lastAttackTime = 0;
+    const Uint32 attackCooldown = 600; // 0.5 giây
 
 private:
-    Entity ai; // Thông tin của AI
-    SDL_Texture* enemyTexture;
-    SDL_Renderer* renderer;
+    int x, y;
+    int health;
+    SDL_Texture* texture;
+    bool active = false;
+
+    bool isAdjacentTo(const Player& player);
+    void moveTowards(const Player& player);
+    void attack(Player& player);
+     SDL_Rect rect;
+
+    Uint32 lastMoveTime = 0;           // Lưu thời điểm lần cuối di chuyển
+    Uint32 moveCooldown = 200;
 };
 
 #endif // ENEMY_H
+
 

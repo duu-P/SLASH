@@ -2,6 +2,12 @@
 #include <SDL_image.h>
 #include <SDL_log.h>
 #include <cmath>
+#include<vector>
+#include "Enemy.h"
+
+using namespace std;
+const int TILE_SIZE = 16;
+const int SPRITE_SIZE = 32;
 
 Attack::Attack() {
     crosshairTexture = nullptr;
@@ -41,6 +47,8 @@ void Attack::loadCrosshair(SDL_Renderer* renderer, const char* imagePath) {
 
     SDL_FreeSurface(surface);
 }
+
+class Enemy;
 
 void Attack::loadAttackTexture(SDL_Renderer* renderer, const char* path)
 {
@@ -86,15 +94,45 @@ void Attack::startAttack(int playerX, int playerY, int mouseX, int mouseY) {
     attackRect.h = 32;
     attackRect.x = centerX + offsetX - attackRect.w / 2;
     attackRect.y = centerY + offsetY - attackRect.h / 2;
+
 }
 
-void Attack::update() {
+bool Attack::checkEnemyHit(Enemy* enemy) {
+    // Kiểm tra enemy hợp lệ và còn sống
+    if (!enemy || enemy->isDead()) {
+        return false;
+    }
+
+    // Lấy hitbox của enemy
+    SDL_Rect enemyRect = enemy->getRect();
+
+    // Kiểm tra va chạm
+    if (SDL_HasIntersection(&attackRect, &enemyRect)) {
+        // Gây damage cho enemy
+        enemy->takeDamage(damage);
+        return true;
+    }
+    return false;
+}
+
+void Attack::update(vector<Enemy*>& enemies) {
      if (isAttacking) {
         timer--;
+
+
+    for (auto enemy : enemies) {
+            if (enemy && !enemy->isDead()) {
+                SDL_Rect enemyRect = enemy->getRect(); // Lưu vào biến cục bộ trước
+                if (SDL_HasIntersection(&attackRect, &enemyRect)) {
+                    enemy->takeDamage(damage);
+                }
+            }
+        }
+
         if (timer <= 0) {
             isAttacking = false;
         }
-    }
+     }
 }
 
 void Attack::render(SDL_Renderer* renderer) {

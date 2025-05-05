@@ -1,46 +1,85 @@
 # depslib dependency file v1.0
-1746303079 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
+1746460329 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_ttf.h>
 	"PLAYER.h"
 	"Map.h"
 	"ATTACK.h"
 	"Enemy.h"
+	<vector>
+	<cstdlib>
+	<ctime>
+	<algorithm>
+	"Score.h"
+	"mainmenu.h"
+	"SimpleHeart.h"
 
-1746293357 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
+1746435375 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
 	"PLAYER.h"
 	<SDL_image.h>
 	"attack.h"
-
-1746303167 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
-	<SDL.h>
+	<iostream>
 	"Enemy.h"
 
-1746126220 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.cpp
+1746432732 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
+	<SDL.h>
+	"Enemy.h"
+	<vector>
+
+1746458362 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.cpp
 	"Map.h"
 	<SDL_image.h>
 
 1746203254 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.h
 	<SDL.h>
 
-1746294007 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.cpp
+1746408935 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.cpp
 	"attack.h"
 	<SDL_image.h>
 	<SDL_log.h>
 	<cmath>
-
-1746288456 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.h
-	<SDL.h>
-
-1746302257 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.h
-	<SDL.h>
-	<string>
-
-1746303035 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.cpp
+	<vector>
 	"Enemy.h"
+
+1746407021 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.h
+	<SDL.h>
+	<vector>
+	"Enemy.h"
+
+1746448110 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.h
+	<SDL.h>
+	"player.h"
+
+1746447265 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.cpp
+	"enemy.h"
 	<cmath>
 	<iostream>
+	"Player.h"
+	<cstdlib>
+	<ctime>
+
+1746457658 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\score.h
+	<SDL.h>
+	<SDL_ttf.h>
+
+1746457658 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\score.cpp
+	<SDL_ttf.h>
+	<string>
+
+1746461286 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\mainmenu.h
+	<SDL.h>
+
+1746460601 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\simpleheart.h
+	<SDL.h>
+	<SDL_image.h>
+
+1746460601 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\simpleheart.cpp
+	<iostream>
+	<SDL_image.h>
+
+1746461286 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\mainmenu.cpp
 	<SDL_image.h>
 	<string>
 

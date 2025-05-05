@@ -1,6 +1,8 @@
 #include "PLAYER.h"
 #include<SDL_image.h>
 #include"attack.h"
+#include<iostream>
+#include "Enemy.h"
 
 
 Player::Player() {
@@ -40,10 +42,10 @@ void Player::loadTextures(SDL_Renderer* renderer, const char* idlePath, const ch
 
 
 SDL_Texture* attackPoseTexture;
-
+enum PlayerState { IDLE, WALKING, ATTACKING };
 void Player::handleEvent(const SDL_Event& e) {
 
-    if (attack.isAttackingNow()) return;
+   if (state == ATTACKING) return;
 
     if (e.type == SDL_KEYDOWN && !e.key.repeat) {  // chỉ xử lý khi mới nhấn
         switch (e.key.keysym.sym) {
@@ -87,21 +89,38 @@ void Player::handleEvent(const SDL_Event& e) {
     attack.startAttack(x, y, mouseX, mouseY);
 
     // Khi tấn công thì không di chuyển
-    moveUp = moveDown = moveLeft = moveRight = false;
+    moveUp = moveDown = moveLeft = moveRight = false; }
+     /*if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
+        attack.startAttack(x, y, e.button.x, e.button.y);
+        state = ATTACKING; // Khóa player
+    } */
 }
 
-}
 
-void Player::update() {
+void Player::update(std::vector<Enemy*>& enemies) {
 
-    if (attack.isAttackingNow()) {
-        attack.update();
+    if (state == ATTACKING) {
+        attack.update(enemies);
+        /*if (!attack.isAttackingNow()) {
+            state = IDLE; // Mở khóa player
+            frame = 0;
+
+        } */
         return;
     }
-
     state = IDLE;
+    //bool wasMoving = (state == WALKING);
+    //bool isMoving = moveUp || moveDown || moveLeft || moveRight;
 
-    if (moveUp) {
+
+    //state = isMoving ? WALKING : IDLE;
+
+
+        //if (moveUp) y -= speed; state = WALKING;
+        //if (moveDown) y += speed; state = WALKING;
+        //if (moveLeft) x -= speed; state = WALKING;
+        //if (moveRight) x += speed; state = WALKING;
+         if (moveUp) {
         y -= speed;
         state = WALKING;
     }
@@ -118,17 +137,17 @@ void Player::update() {
         state = WALKING;
     }
 
+
     // animation
     frameTime++;
     if (frameTime >= FRAME_DELAY) {
         frame = (frame + 1) % 4; // có 4 frame
         frameTime = 0;
+        //srcRect.x = frame * 32;
     }
+       srcRect.x = frame * 32;
 
-    srcRect.x = frame * 32;
-
-    attack.update();
-
+    attack.update(enemies);
 }
 
 void Player::render(SDL_Renderer* renderer) {
@@ -136,14 +155,14 @@ void Player::render(SDL_Renderer* renderer) {
     dstRect.y = y;
 
     SDL_Texture* current;
-   if (attack.isAttackingNow()) {
+    if (attack.isAttackingNow()) {
         current = attackPoseTexture;
         srcRect.x = 0;
-    } else {
-        current = (state == WALKING) ? walkTexture : idleTexture;
-         srcRect.x = frame * 32;
     }
-
+    else {
+        current = (state == WALKING) ? walkTexture : idleTexture;
+        srcRect.x = frame * 32;
+    }
 
     if (currentDirection == LEFT) {
         SDL_RenderCopyEx(renderer, current, &srcRect, &dstRect, 0, NULL, SDL_FLIP_HORIZONTAL);
@@ -152,7 +171,18 @@ void Player::render(SDL_Renderer* renderer) {
     }
 
     attack.render(renderer);
+}
 
+void Player::takeDamage(int amount) {
+    health -= amount;
+    if (health < 0) health = 0;
+
+    // In ra log hoặc cập nhật UI
+    std::cout << "Player takes " << amount << " damage. Remaining HP: " << health << std::endl;
+}
+
+int Player::getHealth() const {
+    return health;
 }
 
 

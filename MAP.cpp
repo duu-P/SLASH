@@ -2,22 +2,15 @@
 #include <SDL_image.h>
 
 Map::Map() {
-    // Gán toàn bộ map là sàn (tile loại 1)
     for (int y = 0; y < MAP_HEIGHT; ++y) {
-        for (int x = 0; x < MAP_WIDTH; ++x) {
-            map[y][x] = 1;
+    for (int x = 0; x < MAP_WIDTH; ++x) {
+        if (y < 2) {
+            map[y][x] = 0; // 3 dòng đầu là tường
+        } else {
+            map[y][x] = 1; // còn lại là sàn
         }
     }
-
-    // Tường xung quanh
-    for (int x = 0; x < MAP_WIDTH; x++) {
-        map[0][x] = 0;
-        map[MAP_HEIGHT - 1][x] = 0;
-    }
-    for (int y = 0; y < MAP_HEIGHT; y++) {
-        map[y][0] = 0;
-        map[y][MAP_WIDTH - 1] = 0;
-    }
+}
 
     tileset = nullptr;
 }
