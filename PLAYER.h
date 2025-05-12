@@ -27,7 +27,7 @@ private:
     int speed;
     bool moveUp, moveDown, moveLeft, moveRight;
 
-    int health = 10;
+    int health = 3;
 
      SDL_Texture* idleTexture;
      SDL_Texture* walkTexture;

@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <cstdlib>
 #include <ctime>
+#include "SimpleHeart.h"
 
 using namespace std;
 const int TILE_SIZE = 16;
@@ -27,14 +28,14 @@ bool Enemy::isDead() const {
     return health <= 0;
 }
 
-void Enemy::update(Player& player) {
+void Enemy::update(Player& player, SimpleHeart& hearts) {
     Uint32 now = SDL_GetTicks();
     if (now - lastMoveTime < moveCooldown) return; // Đợi đến khi đủ thời gian
 
     lastMoveTime = now;
 
     if (isAdjacentTo(player)) {
-        attack(player);
+        attack(player, hearts);
     } else {
         moveTowards(player);
     }
@@ -44,8 +45,8 @@ bool Enemy::isAdjacentTo(const Player& player) {
     int playerTileX = player.getX() / TILE_SIZE;
     int playerTileY = player.getY() / TILE_SIZE;
 
-    int dx = std::abs(x - playerTileX);
-    int dy = std::abs(y - playerTileY);
+    int dx = abs(x - playerTileX);
+    int dy = abs(y - playerTileY);
     return (dx + dy == 1); }
 
 void Enemy::moveTowards(const Player& player) {
@@ -55,25 +56,33 @@ void Enemy::moveTowards(const Player& player) {
     int dx = targetX - x;
     int dy = targetY - y;
 
-    if (std::abs(dx) > std::abs(dy)) {
+    if (dx > 0) {
+        facingRight = true; // Sang phải
+    }
+    else if (dx < 0) {
+        facingRight = false; // Sang trái
+    }
+
+    if (abs(dx) > abs(dy)) {
         x += (dx > 0) ? 1 : -1;
     } else if (dy != 0) {
         y += (dy > 0) ? 1 : -1;
     }
 }
 
-void Enemy::attack(Player& player) {
+void Enemy::attack(Player& player, SimpleHeart& hearts) {
     Uint32 now = SDL_GetTicks();
     if (now - lastAttackTime < attackCooldown) return;
 
     lastAttackTime = now;
-    std::cout << "Enemy attacks!" << std::endl;
+    cout << "Enemy attacks!" << endl;
     player.takeDamage(1);
+    hearts.loseLife();
 }
 
 void Enemy::render(SDL_Renderer* renderer) {
     if (isDead()) return;
-    SDL_Rect srcRect = {0, 0, SPRITE_SIZE, SPRITE_SIZE}; // Giả sử dùng frame đầu tiên
+    SDL_Rect srcRect = {0, 0, SPRITE_SIZE, SPRITE_SIZE}; //  dùng frame đầu tiên
     SDL_Rect dstRect;
 
     dstRect.x = x * TILE_SIZE + (TILE_SIZE / 2); // Căn giữa tile 16px
@@ -83,11 +92,13 @@ void Enemy::render(SDL_Renderer* renderer) {
 
     rect = dstRect;
 
-    SDL_RenderCopy(renderer, texture, &srcRect, &dstRect);
+
+    SDL_RendererFlip flip = facingRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &dstRect, 0, NULL, flip);
 }
 
 SDL_Rect Enemy::getRect() const {
-    return rect;  // Trả về rect chứa thông tin vị trí và kích thước của enemy
+    return rect;  // vị trí và kích thước của enemy
 }
 
 void Enemy::kill() {
@@ -103,17 +114,17 @@ void Enemy::spawnRandom(int screenWidth, int screenHeight) {
     int direction = std::rand() % 3;
 
     switch (direction) {
-        case 0: // Trái (ngoài rìa trái, dọc từ trên xuống)
+        case 0: // Trái
             spawnTileX = -1;  // Tọa độ X ở ngoài rìa trái
-            spawnTileY = std::rand() % (screenHeight / tileSize);  // Tạo tọa độ Y trong khoảng từ 0 đến chiều cao màn hình
+            spawnTileY = std::rand() % (screenHeight / tileSize);
             break;
 
-        case 1: // Phải (ngoài rìa phải, dọc từ trên xuống)
-            spawnTileX = screenWidth / tileSize;  // Tọa độ X ở ngoài rìa phải
-            spawnTileY = std::rand() % (screenHeight / tileSize);  // Tạo tọa độ Y trong khoảng từ 0 đến chiều cao màn hình
+        case 1: // Phải (
+            spawnTileX = screenWidth / tileSize;
+            spawnTileY = std::rand() % (screenHeight / tileSize);
             break;
 
-        case 2: // Dưới (ngoài rìa dưới, trải ngang)
+        case 2: // Dưới (
             spawnTileX = std::rand() % (screenWidth / tileSize);  // Tạo tọa độ X trong khoảng từ 0 đến chiều rộng màn hình
             spawnTileY = screenHeight / tileSize;  // Tọa độ Y ở ngoài rìa dưới
             break;

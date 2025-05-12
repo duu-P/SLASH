@@ -3,6 +3,7 @@
 #include"attack.h"
 #include<iostream>
 #include "Enemy.h"
+using namespace std;
 
 
 Player::Player() {
@@ -101,25 +102,10 @@ void Player::update(std::vector<Enemy*>& enemies) {
 
     if (state == ATTACKING) {
         attack.update(enemies);
-        /*if (!attack.isAttackingNow()) {
-            state = IDLE; // Mở khóa player
-            frame = 0;
 
-        } */
         return;
     }
     state = IDLE;
-    //bool wasMoving = (state == WALKING);
-    //bool isMoving = moveUp || moveDown || moveLeft || moveRight;
-
-
-    //state = isMoving ? WALKING : IDLE;
-
-
-        //if (moveUp) y -= speed; state = WALKING;
-        //if (moveDown) y += speed; state = WALKING;
-        //if (moveLeft) x -= speed; state = WALKING;
-        //if (moveRight) x += speed; state = WALKING;
          if (moveUp) {
         y -= speed;
         state = WALKING;
@@ -143,7 +129,6 @@ void Player::update(std::vector<Enemy*>& enemies) {
     if (frameTime >= FRAME_DELAY) {
         frame = (frame + 1) % 4; // có 4 frame
         frameTime = 0;
-        //srcRect.x = frame * 32;
     }
        srcRect.x = frame * 32;
 
@@ -177,8 +162,8 @@ void Player::takeDamage(int amount) {
     health -= amount;
     if (health < 0) health = 0;
 
-    // In ra log hoặc cập nhật UI
-    std::cout << "Player takes " << amount << " damage. Remaining HP: " << health << std::endl;
+    // Dùng tạm khi chưa cài được Score
+    cout << "Player takes " << amount << " damage. Remaining HP: " << health << endl;
 }
 
 int Player::getHealth() const {

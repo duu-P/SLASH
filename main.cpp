@@ -11,7 +11,7 @@
 #include <ctime>
 #include <algorithm>
 #include "Score.h"
-#include "mainmenu.h"
+#include "GameMenu.h"
 #include "SimpleHeart.h"
 
 
@@ -42,8 +42,8 @@ SDL_Window* initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char* WINDOW_TITL
         logErrorAndExit("SDL_Init", SDL_GetError());
 
     SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    //full screen
-    //window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
+
+
     if (window == nullptr) logErrorAndExit("CreateWindow", SDL_GetError());
 
     return window;
@@ -71,12 +71,12 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
     SDL_Quit();
 }
 
-void spawnEnemyWave(std::vector<Enemy*>& enemies, SDL_Texture* enemyTexture, int screenWidth, int screenHeight) {
+void spawnEnemyWave(vector<Enemy*>& enemies, SDL_Texture* enemyTexture, int screenWidth, int screenHeight) {
     // Tính số quái theo công thức: Uₙ = 3 + (n-1)*1
     int enemiesToSpawn = 3 + currentWave;
 
     // Tính thời gian giữa các wave: 5s -> 10s
-    float spawnInterval = std::min(5000.0f + (currentWave * 1000.0f), 10000.0f);
+    float spawnInterval = min(5000.0f + (currentWave * 1000.0f), 10000.0f);
 
     // Tăng tốc dộ
      Uint32 baseCooldown = 200;
@@ -93,8 +93,8 @@ void spawnEnemyWave(std::vector<Enemy*>& enemies, SDL_Texture* enemyTexture, int
     currentWave++;
     lastSpawnTime = SDL_GetTicks();
 
-    // Debug log
-    std::cout << "Spawned wave " << currentWave
+    //
+    cout << "Spawned wave " << currentWave
               << " (" << enemiesToSpawn << " enemies)"
               << " | Next wave in " << (spawnInterval/1000) << "s\n";
 }
@@ -102,7 +102,7 @@ void spawnEnemyWave(std::vector<Enemy*>& enemies, SDL_Texture* enemyTexture, int
 SDL_Texture* loadTexture(SDL_Renderer* renderer, const char* filePath) {
     SDL_Texture* texture = IMG_LoadTexture(renderer, filePath);
     if (!texture) {
-        std::cerr << "IMG_LoadTexture error: " << IMG_GetError() << std::endl;
+        cerr << "IMG_LoadTexture error: " << IMG_GetError() << endl;
     }
     return texture;
 }
@@ -118,6 +118,36 @@ int main(int argc, char* argv[])
     SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SDL_Renderer* renderer = createRenderer(window);
 
+    SDL_Texture* gameOverTexture = IMG_LoadTexture(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Game Over.png");
+    bool isGameOver = false;
+
+    GameMenu menu(renderer);
+if (!menu.loadMedia("C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/BACKGROUND.png", "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/PLAY-game.png")) {
+    cerr << "Không thể tải ảnh menu!\n";
+    quitSDL(window, renderer);
+    return 1;
+}
+
+bool quit = false;
+bool startGame = false;
+SDL_Event menuEvent;
+
+while (!quit && !startGame) {
+    while (SDL_PollEvent(&menuEvent)) {
+        if (menuEvent.type == SDL_QUIT) quit = true;
+        menu.handleEvent(&menuEvent, startGame);
+    }
+
+    SDL_RenderClear(renderer);
+    menu.render();
+    SDL_RenderPresent(renderer);
+}
+
+if (quit) {
+    quitSDL(window, renderer);
+    return 0;
+}
+
 
     // Tạo map
     Map gameMap;
@@ -126,6 +156,9 @@ int main(int argc, char* argv[])
     // Khai báo người chơi
     Player player;
     player.loadTextures(renderer,"C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-Stand.png","C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Player-Runn.png" );
+
+    SimpleHeart hearts(renderer);
+    hearts.loadTexture( "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Heart.png");
 
     SDL_Texture* enemyTexture = IMG_LoadTexture(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/Knight-enemy.png");
 
@@ -136,10 +169,14 @@ int main(int argc, char* argv[])
     Attack attack;
     attack.loadCrosshair(renderer, "C:/SDL2-devel-2.28.5-mingw/SDL2-2.28.5/x86_64-w64-mingw32/bin/SLASH/Đồ họa game/aim target.png");
 
+
+
     bool running = true;
     SDL_Event event;
 
-    Attack playerAttack;  // Thêm đối tượng Attack
+    Attack playerAttack;
+
+
 
 
 
@@ -151,6 +188,8 @@ int main(int argc, char* argv[])
 
             player.handleEvent(event);
         }
+
+        if (!isGameOver) {
         // Spawn theo wave
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - lastSpawnTime > std::min(5000 + (currentWave * 1000), 10000)) {
@@ -158,20 +197,33 @@ int main(int argc, char* argv[])
         }
 
         player.update(enemies);
-        //enemy.update(player);
+
+        int targetLives = player.getHealth();
+    while (hearts.getLives() > targetLives) {
+        hearts.loseLife();
+    }
+
+
         for (auto it = enemies.begin(); it != enemies.end(); ) {
             if ((*it)->isDead()) {
                 delete *it;
                 it = enemies.erase(it);
             } else {
-                (*it)->update(player);
+                (*it)->update(player, hearts);
                 ++it;
             }
         }
         attack.update(enemies);
 
+        // Hết máu thì hiện màn hình Game Over
+        if (player.getHealth() <= 0) {
+                isGameOver = true;
+        }
+}
+
         SDL_RenderClear(renderer);
 
+         if (!isGameOver) {
         gameMap.render(renderer);
 
         for (auto enemy : enemies) {
@@ -184,6 +236,11 @@ int main(int argc, char* argv[])
 
         attack.renderCrosshair(renderer);
 
+        hearts.render(); }
+        else {
+            SDL_ShowCursor(SDL_ENABLE);
+            SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
+        }
 
         SDL_RenderPresent(renderer);
     }
@@ -191,6 +248,9 @@ int main(int argc, char* argv[])
         delete enemy; }
         enemies.clear();
     IMG_Quit();
+    if (gameOverTexture) {
+        SDL_DestroyTexture(gameOverTexture);
+    }
 
 
     gameMap.clean();

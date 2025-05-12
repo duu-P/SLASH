@@ -36,10 +36,16 @@
 		<Unit filename="ATTACK.h" />
 		<Unit filename="Enemy.cpp" />
 		<Unit filename="Enemy.h" />
+		<Unit filename="GameMenu.cpp" />
+		<Unit filename="GameMenu.h" />
 		<Unit filename="MAP.cpp" />
 		<Unit filename="MAP.h" />
 		<Unit filename="PLAYER.cpp" />
 		<Unit filename="PLAYER.h" />
+		<Unit filename="Score.cpp" />
+		<Unit filename="Score.h" />
+		<Unit filename="Simpleheart.cpp" />
+		<Unit filename="Simpleheart.h" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

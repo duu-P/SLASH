@@ -2,13 +2,14 @@
 #define ENEMY_H
 #include<SDL.h>
 #include "player.h"
+#include "SimpleHeart.h"
 class Player;
 class Enemy {
 public:
     Enemy(int x, int y, SDL_Texture* texture);
 
-    void update(Player& player); // AI hành vi chính
-    void render(SDL_Renderer* renderer); // Vẽ enemy
+    void update(Player& player,SimpleHeart& hearts); // AI hành vi
+    void render(SDL_Renderer* renderer);
     void takeDamage(int damage);
     void kill();
     bool isDead() const;
@@ -27,17 +28,18 @@ public:
 
 
     Uint32 lastAttackTime = 0;
-    const Uint32 attackCooldown = 600; // 0.5 giây
+    const Uint32 attackCooldown = 600; // 0.6 giây
 
 private:
     int x, y;
     int health;
     SDL_Texture* texture;
     bool active = false;
+    bool facingRight;
 
     bool isAdjacentTo(const Player& player);
     void moveTowards(const Player& player);
-    void attack(Player& player);
+    void attack(Player& player, SimpleHeart& hearts);
      SDL_Rect rect;
 
     Uint32 lastMoveTime = 0;           // Lưu thời điểm lần cuối di chuyển

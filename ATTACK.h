@@ -42,10 +42,10 @@ private:
     SDL_Texture* attackTexture;
     SDL_Rect attackRect;
 
-    float angle = 0.0f; // Góc tấn công (radian)ư
+    float angle = 0.0f; // Góc tấn công (radian)
 
     int timer;
-    const int duration = 30; // khoảng 1 giây nếu 60 FPS
+    const int duration = 30;
 
 };
 

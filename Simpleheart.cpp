@@ -1,57 +1,38 @@
-/*#include "SimpleHeart.h"
+#include "SimpleHeart.h"
 #include <iostream>
-#include <SDL_image.h>
+#include<SDL_image.h>
+SimpleHeart::SimpleHeart(SDL_Renderer* renderer)
+    : renderer(renderer), heartTexture(nullptr) {}
 
-SimpleHeart::SimpleHeart() :
-    heartTexture(nullptr),
-    lives(3),
-    heartWidth(32),
-    heartHeight(32) {}
-
-SimpleHealth::~SimpleHealth() {
-    if (heartTexture) {
-        SDL_DestroyTexture(heartTexture);
-        heartTexture = nullptr;
-    }
+SimpleHeart::~SimpleHeart() {
+    if (heartTexture) SDL_DestroyTexture(heartTexture);
 }
 
-bool SimpleHealth::init(SDL_Renderer* renderer, const char* heartImagePath) {
-    // Load texture trái tim
-    heartTexture = IMG_LoadTexture(renderer, heartImagePath);
+bool SimpleHeart::loadTexture(const char* filePath) {
+    heartTexture = IMG_LoadTexture(renderer, filePath);
     if (!heartTexture) {
-        std::cerr << "Không thể load texture trái tim: " << IMG_GetError() << std::endl;
+        std::cerr << "Failed to load heart texture: " << SDL_GetError() << std::endl;
         return false;
     }
-
-    // Lấy kích thước thực của texture
-    SDL_QueryTexture(heartTexture, NULL, NULL, &heartWidth, &heartHeight);
-    reset();
     return true;
 }
 
-void SimpleHealth::loseLife() {
-    if (lives > 0) lives--;
-}
-
-void SimpleHealth::render(SDL_Renderer* renderer) {
-    if (!heartTexture) return;
-
-    // Vẽ từng trái tim còn lại
-    for (int i = 0; i < lives; i++) {
-        SDL_Rect destRect = {
-            10 + i * (heartWidth + 5),  // Cách nhau 5 pixel
-            10,
-            heartWidth,
-            heartHeight
-        };
-        SDL_RenderCopy(renderer, heartTexture, NULL, &destRect);
+void SimpleHeart::render() {
+    for (int i = 0; i < currentLives; ++i) {
+        SDL_Rect dstRect = { 10 + i * (heartSize + 5), 10, heartSize, heartSize };
+        SDL_RenderCopy(renderer, heartTexture, nullptr, &dstRect);
     }
 }
 
-bool SimpleHealth::isAlive() const {
-    return lives > 0;
+void SimpleHeart::loseLife() {
+    if (currentLives > 0) currentLives--;
 }
 
-void SimpleHealth::reset() {
-    lives = 3;
-} */
+void SimpleHeart::reset() {
+    currentLives = maxLives;
+}
+
+int SimpleHeart::getLives() const {
+    return currentLives;
+}
+

@@ -1,34 +1,28 @@
-/*#ifndef SIMPLE_HEART_H
+#ifndef SIMPLE_HEART_H
 #define SIMPLE_HEART_H
 
 #include <SDL.h>
-#include <SDL_image.h>
+#include <vector>
 
 class SimpleHeart {
 public:
-    SimpleHeart();
+    SimpleHeart(SDL_Renderer* renderer);
     ~SimpleHeart();
 
-    // Khởi tạo hệ thống máu
-    bool init(SDL_Renderer* renderer, const char* heartImagePath);
-
-    // Mất 1 mạng
+    bool loadTexture(const char* filePath);
+    void render();
     void loseLife();
-
-    // Vẽ máu lên màn hình
-    void render(SDL_Renderer* renderer);
-
-    // Kiểm tra còn sống
-    bool isAlive() const;
-
-    // Reset về 3 mạng
     void reset();
+    int getLives() const;
+
 
 private:
+    SDL_Renderer* renderer;
     SDL_Texture* heartTexture;
-    int lives;
-    int heartWidth;
-    int heartHeight;
+    int maxLives = 3;
+    int currentLives = 3;
+    int heartSize = 32;
 };
 
-#endif */
+#endif
+

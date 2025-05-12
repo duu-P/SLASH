@@ -5,7 +5,7 @@ Map::Map() {
     for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
         if (y < 2) {
-            map[y][x] = 0; // 3 dòng đầu là tường
+            map[y][x] = 0; // 2 dòng đầu là tường
         } else {
             map[y][x] = 1; // còn lại là sàn
         }

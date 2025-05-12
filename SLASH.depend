@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1746460329 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
+1747089822 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -13,22 +13,22 @@
 	<ctime>
 	<algorithm>
 	"Score.h"
-	"mainmenu.h"
+	"GameMenu.h"
 	"SimpleHeart.h"
 
-1746435375 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
+1746493444 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.cpp
 	"PLAYER.h"
 	<SDL_image.h>
 	"attack.h"
 	<iostream>
 	"Enemy.h"
 
-1746432732 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
+1747088465 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\player.h
 	<SDL.h>
 	"Enemy.h"
 	<vector>
 
-1746458362 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.cpp
+1746493444 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\map.cpp
 	"Map.h"
 	<SDL_image.h>
 
@@ -43,22 +43,24 @@
 	<vector>
 	"Enemy.h"
 
-1746407021 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.h
+1746493444 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\attack.h
 	<SDL.h>
 	<vector>
 	"Enemy.h"
 
-1746448110 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.h
+1747090150 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.h
 	<SDL.h>
 	"player.h"
+	"SimpleHeart.h"
 
-1746447265 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.cpp
+1747083080 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\enemy.cpp
 	"enemy.h"
 	<cmath>
 	<iostream>
 	"Player.h"
 	<cstdlib>
 	<ctime>
+	"SimpleHeart.h"
 
 1746457658 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\score.h
 	<SDL.h>
@@ -68,18 +70,32 @@
 	<SDL_ttf.h>
 	<string>
 
-1746461286 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\mainmenu.h
-	<SDL.h>
-
-1746460601 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\simpleheart.h
+1746494798 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\mainmenu.h
 	<SDL.h>
 	<SDL_image.h>
+	<iostream>
 
-1746460601 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\simpleheart.cpp
+1747088229 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\simpleheart.h
+	<SDL.h>
+	<vector>
+
+1747083257 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\simpleheart.cpp
+	"SimpleHeart.h"
 	<iostream>
 	<SDL_image.h>
 
 1746461286 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\mainmenu.cpp
 	<SDL_image.h>
 	<string>
+
+1747081754 c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\gamemenu.h
+	<SDL.h>
+	<SDL_image.h>
+	<iostream>
+	<string>
+
+1747080135 source:c:\sdl2-devel-2.28.5-mingw\sdl2-2.28.5\x86_64-w64-mingw32\bin\slash\gamemenu.cpp
+	<SDL.h>
+	"GameMenu.h"
+	<SDL_image.h>
 
